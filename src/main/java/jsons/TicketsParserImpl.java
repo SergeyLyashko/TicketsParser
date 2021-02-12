@@ -1,9 +1,7 @@
-package handlers;
+package jsons;
 
 import com.google.gson.Gson;
-import configuration.TicketParser;
-import jsons.Ticket;
-import jsons.TicketsBundle;
+import handlers.TicketParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

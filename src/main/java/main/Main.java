@@ -11,9 +11,9 @@ public class Main {
         ApplicationContext context = new AnnotationConfigApplicationContext(TicketsConfiguration.class);
         TicketsHandler handler = context.getBean("handler", TicketsHandler.class);
 
-        String averageFlightTime = handler.averageFlightTime("Владивосток", "Тель-Авив");
+        String averageFlightTime = handler.averageFlightTime();
         System.out.println("average: "+averageFlightTime);
-        String percentileFlightTime = handler.percentileFlightTime(90);
+        String percentileFlightTime = handler.percentileFlightTime();
         System.out.println("percentile: "+percentileFlightTime);
     }
 }

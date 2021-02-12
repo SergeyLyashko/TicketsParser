@@ -1,9 +1,7 @@
 package handlers;
 
-import configuration.TicketParser;
 import jsons.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
@@ -17,23 +15,30 @@ public class TicketsHandler {
 
     private static final int TIME_FORMAT_FACTOR = 60;
     private final Comparator<Ticket> ticketComparator = Comparator.comparing(this::getFlightTime);
+    private final String originName;
+    private final String destinationName;
+    private final int percentile;
 
     private TicketParser ticketParser;
 
-    @Lazy
     @Autowired
     public void setTicketParser(TicketParser ticketParser){
         this.ticketParser = ticketParser;
     }
 
+    @Autowired
+    public TicketsHandler(String originName, String destinationName, int percentile){
+        this.originName = originName;
+        this.destinationName = destinationName;
+        this.percentile = percentile;
+    }
+
     /**
      * Average time value search among all tickets
      * based on flight path
-     * @param originName origin point name
-     * @param destinationName destination point name
      * @return time value
      */
-    public String averageFlightTime(String originName, String destinationName) {
+    public String averageFlightTime() {
         Double time = ticketParser.getTicketList().stream()
                 .filter(ticket -> ticket.getOriginName().equalsIgnoreCase(originName)
                         && ticket.getDestinationName().equalsIgnoreCase(destinationName))
@@ -43,10 +48,9 @@ public class TicketsHandler {
 
     /**
      * Percentile search based on percentile value
-     * @param percentile 0<=value<=100
      * @return percentile time value
      */
-    public String percentileFlightTime(int percentile){
+    public String percentileFlightTime(){
         double position = getPosition(percentile);
         int countBefore = getCountBefore((int)position);
         Ticket low = getTicketOnPosition((int) position);

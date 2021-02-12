@@ -1,14 +1,15 @@
 package configuration;
 
-import handlers.TicketsHandler;
-import handlers.TicketsParserImpl;
+import jsons.TicketsParserImpl;
 import jsons.Ticket;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 
 import java.io.File;
 
+@ImportResource(locations = {"classpath:ticket-handler-context.xml"})
 @ComponentScan(basePackages = {"handlers", "jsons"})
 @Configuration
 public class TicketsConfiguration {
@@ -16,10 +17,6 @@ public class TicketsConfiguration {
     @Bean
     public File file(){
         return new File("tickets.json");
-    }
-
-    public TicketsHandler handler(){
-        return new TicketsHandler();
     }
 
     public TicketsParserImpl parser(){
