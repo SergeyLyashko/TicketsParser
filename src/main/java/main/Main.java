@@ -1,25 +1,19 @@
 package main;
 
+import configuration.TicketsConfiguration;
 import handlers.TicketsHandler;
-import handlers.TicketsParser;
-import jsons.Ticket;
-
-import java.io.File;
-import java.util.List;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
     public static void main(String[] args) {
 
-        File file = new File("tickets.json");
-        TicketsParser ticketsParser = new TicketsParser(file);
-        List<Ticket> allTickets = ticketsParser.createTicketsList();
+        ApplicationContext context = new AnnotationConfigApplicationContext(TicketsConfiguration.class);
+        TicketsHandler handler = context.getBean("handler", TicketsHandler.class);
 
-
-        TicketsHandler ticketsHandler = new TicketsHandler(allTickets);
-        String averageFlightTime = ticketsHandler.averageFlightTime("Владивосток", "Тель-Авив");
+        String averageFlightTime = handler.averageFlightTime("Владивосток", "Тель-Авив");
         System.out.println("average: "+averageFlightTime);
-        String percentileFlightTime = ticketsHandler.percentileFlightTime(90);
+        String percentileFlightTime = handler.percentileFlightTime(90);
         System.out.println("percentile: "+percentileFlightTime);
-
     }
 }

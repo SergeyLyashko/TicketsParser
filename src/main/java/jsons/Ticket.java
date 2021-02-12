@@ -1,7 +1,9 @@
 package jsons;
 
 import com.google.gson.annotations.SerializedName;
+import org.springframework.stereotype.Component;
 
+@Component("ticket")
 public class Ticket {
 
     @SerializedName("origin_name")

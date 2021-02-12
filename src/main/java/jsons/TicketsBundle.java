@@ -13,7 +13,7 @@ public class TicketsBundle {
         this.ticketsBundle = ticketsBundle;
     }
 
-    public List<Ticket> getTicketsBundle(){
+    public List<Ticket> getAllTickets(){
         return ticketsBundle;
     }
 }
