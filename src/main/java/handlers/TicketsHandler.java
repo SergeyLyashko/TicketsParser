@@ -1,7 +1,7 @@
 package handlers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-@Component("handler")
+@Service("handler")
 public class TicketsHandler {
 
     private static final int TIME_FORMAT_FACTOR = 60;
@@ -58,6 +58,14 @@ public class TicketsHandler {
             return millisecondsToTime((long) time);
         }
         return null;
+    }
+
+    public int getPercentile(){
+        return percentile;
+    }
+
+    public String getFlightPath(){
+        return originName+" - "+destinationName;
     }
 
     private Ticket getTicketOnPosition(int position){

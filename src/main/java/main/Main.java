@@ -15,9 +15,11 @@ public class Main {
 
         TicketsHandler handler = context.getBean("handler", TicketsHandler.class);
         String averageFlightTime = handler.averageFlightTime();
-        System.out.println("average: "+averageFlightTime);
+        String flightPath = handler.getFlightPath();
+        System.out.println("Average flight time of "+flightPath+" : "+averageFlightTime);
 
+        int percentile = handler.getPercentile();
         String percentileFlightTime = handler.percentileFlightTime();
-        System.out.println("percentile: "+percentileFlightTime);
+        System.out.println(percentile+"th percentile flight time of "+flightPath+" : "+percentileFlightTime);
     }
 }

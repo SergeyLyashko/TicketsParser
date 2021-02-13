@@ -7,9 +7,9 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="handler" class="handlers.TicketsHandler">
-        <constructor-arg index="0" value="Владивосток"/>
-        <constructor-arg index="1" value="Тель-Авив"/>
-        <constructor-arg index="2" value="90"/>
+        <constructor-arg name="originName" value="Владивосток"/>
+        <constructor-arg name="destinationName" value="Тель-Авив"/>
+        <constructor-arg name="percentile" value="90"/>
     </bean>
 
 </beans>
