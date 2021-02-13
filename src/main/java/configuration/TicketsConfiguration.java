@@ -1,29 +1,26 @@
 package configuration;
 
-import jsons.TicketsParserImpl;
-import jsons.Ticket;
-import org.springframework.context.annotation.Bean;
+import com.google.gson.JsonDeserializer;
+import handlers.*;
+import jsons.TicketImpl;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 
-import java.io.File;
-
-@ImportResource(locations = {"classpath:ticket-handler-context.xml"})
+@ImportResource(locations = {"classpath:ticket-handler-context.xml", "classpath:json-parser-context.xml" })
 @ComponentScan(basePackages = {"handlers", "jsons"})
 @Configuration
 public class TicketsConfiguration {
 
-    @Bean
-    public File file(){
-        return new File("tickets.json");
+    public JsonDeserializer<TicketsBundle> jsonDeserializer(){
+        return new TicketsBundleDeserializer();
     }
 
-    public TicketsParserImpl parser(){
-        return new TicketsParserImpl();
+    public TicketsBundleAdapter bundleAdapter(){
+        return new TicketsBundleTypeAdapter();
     }
 
     public Ticket ticket(){
-        return new Ticket();
+        return new TicketImpl();
     }
 }

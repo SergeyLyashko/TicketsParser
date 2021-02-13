@@ -1,6 +1,5 @@
 package handlers;
 
-import jsons.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,12 +17,11 @@ public class TicketsHandler {
     private final String originName;
     private final String destinationName;
     private final int percentile;
-
-    private TicketParser ticketParser;
+    private TicketsParser ticketsParser;
 
     @Autowired
-    public void setTicketParser(TicketParser ticketParser){
-        this.ticketParser = ticketParser;
+    public void setTicketsParser(TicketsParser ticketsParser){
+        this.ticketsParser = ticketsParser;
     }
 
     @Autowired
@@ -39,7 +37,7 @@ public class TicketsHandler {
      * @return time value
      */
     public String averageFlightTime() {
-        Double time = ticketParser.getTicketList().stream()
+        Double time = ticketsParser.getTicketsBundle().getAllTickets().stream()
                 .filter(ticket -> ticket.getOriginName().equalsIgnoreCase(originName)
                         && ticket.getDestinationName().equalsIgnoreCase(destinationName))
                 .collect(Collectors.averagingLong(this::getFlightTime));
@@ -63,24 +61,24 @@ public class TicketsHandler {
     }
 
     private Ticket getTicketOnPosition(int position){
-        if(!ticketParser.getTicketList().isEmpty()) {
-            return ticketParser.getTicketList().stream()
+        if(!ticketsParser.getTicketsBundle().getAllTickets().isEmpty()) {
+            return ticketsParser.getTicketsBundle().getAllTickets().stream()
                     .sorted(ticketComparator)
-                    .skip(ticketParser.getTicketList().size() - position)
+                    .skip(ticketsParser.getTicketsBundle().getAllTickets().size() - position)
                     .findFirst().get();
         }
         return null;
     }
 
     private int getCountBefore(int position){
-        return (int) ticketParser.getTicketList().stream()
+        return (int) ticketsParser.getTicketsBundle().getAllTickets().stream()
                 .sorted(ticketComparator)
-                .skip(ticketParser.getTicketList().size() - position)
+                .skip(ticketsParser.getTicketsBundle().getAllTickets().size() - position)
                 .count();
     }
 
     private double getPosition(int percentile){
-        return (ticketParser.getTicketList().size() * (double)percentile/100);
+        return (ticketsParser.getTicketsBundle().getAllTickets().size() * (double)percentile/100);
     }
 
     private long getFlightTime(Ticket ticket){
